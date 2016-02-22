@@ -45,7 +45,14 @@ namespace Cudafy.Host.UnitTests
         public void SetUp()
         {
             _gpu0 = CudafyHost.CreateDevice(CudafyModes.Target, 0);
-            _gpu1 = CudafyHost.CreateDevice(CudafyModes.Target, 1);
+            try
+            {
+                _gpu1 = CudafyHost.CreateDevice(CudafyModes.Target, 1);
+            }
+            catch (Exception)
+            {
+                Assert.Ignore("MultiGPUTests expects, at least, 2 device.");
+            }
             _uintBufferIn0 = new uint[N];
             _uintBufferOut0 = new uint[N];
             _uintBufferIn1 = new uint[N];
